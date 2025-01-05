@@ -168,7 +168,7 @@
                                                             <input type="text" class="form-control rounded" style="padding-right: 1px" name="search" id="search" value="{{ request('search') }}" placeholder="Cari...">
                                                        </div>
                                                   </div>
-                                                  <div class="d-blok justify-content-center m-1">
+                                                  {{-- <div class="d-blok justify-content-center m-1">
                                                        <div class="form-group">
                                                             <select class="form-select form-select-sm rounded"  name="kelas" id="kelas">
                                                                  <option value="" >Kelas</option>
@@ -183,7 +183,7 @@
                                                                  <option value="6" {{ request('kelas') == '6' ? 'selected' : '' }}>6</option>
                                                             </select>
                                                        </div>
-                                                  </div>
+                                                  </div> --}}
                                                   <div class="d-blok justify-content-center m-1">
                                                        <button type="submit" class="btn btn-sm btn-primary btn-rounded">
                                                             Cari

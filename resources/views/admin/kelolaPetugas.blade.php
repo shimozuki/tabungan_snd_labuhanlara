@@ -81,6 +81,7 @@
                                                             <th>Jenis Kelamin</th>
                                                             <th>Email</th>
                                                             <th>Kontak</th>
+                                                            <th>Kelas</th>
                                                             <th>Tanggal Dibuat</th>
                                                             <th>Opsi</th>
                                                        </tr>
@@ -94,6 +95,7 @@
                                                                  <td>{{$users->jenis_kelamin}}</td>
                                                                  <td>{{$users->email}}</td>
                                                                  <td>{{$users->kontak}}</td>
+                                                                 <td>{{ $users->kelas}}</td>
                                                                  <td>{{$users->created_at}}</td>
                                                                  <td class="text-center">
                                                                       <button type="button" class="btn btn-warning btn-sm btn-rounded" data-id="{{ $users->id }}" id="btn-edit-user" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -122,100 +124,130 @@
 <!-- Tambah Modal -->
 <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
      <div class="modal-dialog">
-          <div class="modal-content">
-               <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Petugas</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                    <form method="post" action="{{ route('petugas.store')}}" enctype="multipart/form-data">
-                         @csrf
-                         <div class="row">
-                              <div class="form-group col-md-6">
-                                   <label for="nama">Nama</label>
-                                   <input type="text" class="form-control rounded" id="nama" name="nama" placeholder="Nama">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="id_tabungan">Username</label>
-                                   <input type="text" class="form-control rounded" id="id_tabungan" name="id_tabungan" placeholder="Username Maks. 10">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="email">Email Address</label>
-                                   <input type="email" class="form-control rounded" id="email" name="email" placeholder="Email">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="kontak">Nomor Telepon</label>
-                                   <input type="text" class="form-control rounded" id="kontak" name="kontak" placeholder="Kontak">
-                              </div>
-                              <div class="form-group col-md-6">
-                              <label for="password">Password</label>
-                              <input type="password" class="form-control rounded" id="password" name="password" placeholder="Password">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="jenis_kelamin">Jenis Kelamin</label>
-                                   <select name="jenis_kelamin" class="form-select form-select-sm" id="jenis_kelamin">
-                                        <option value="Laki - Laki">Laki - Laki</option>
-                                        <option value="Perempuan">Perempuan</option>
-                                   </select>
-                              </div>
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Petugas</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+                 <form method="post" action="{{ route('petugas.store')}}" enctype="multipart/form-data">
+                     @csrf
+                     <div class="row">
+                         <div class="form-group col-md-6">
+                             <label for="nama">Nama</label>
+                             <input type="text" class="form-control rounded" id="nama" name="nama" placeholder="Nama" required>
                          </div>
-                         <div class="modal-footer justify-content-center">
-                              <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">Batal</button>
-                              <button type="submit" class="btn btn-primary btn-rounded">Tambah</button>
+                         <div class="form-group col-md-6">
+                             <label for="id_tabungan">Username</label>
+                             <input type="text" class="form-control rounded" id="id_tabungan" name="id_tabungan" placeholder="Username Maks. 10" required>
                          </div>
-                    </form>
-               </div>
-          </div>
+                         <div class="form-group col-md-6">
+                             <label for="email">Email Address</label>
+                             <input type="email" class="form-control rounded" id="email" name="email" placeholder="Email" required>
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="kontak">Nomor Telepon</label>
+                             <input type="text" class="form-control rounded" id="kontak" name="kontak" placeholder="Kontak" required>
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="password">Password</label>
+                             <input type="password" class="form-control rounded" id="password" name="password" placeholder="Password" required>
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="jenis_kelamin">Jenis Kelamin</label>
+                             <select name="jenis_kelamin" class="form-select form-select-sm" id="jenis_kelamin" required>
+                                 <option value="Laki - Laki">Laki - Laki</option>
+                                 <option value="Perempuan">Perempuan</option>
+                             </select>
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="kelas">Kelas</label>
+                             <select class="form-select form-select-sm rounded" name="kelas" id="kelas" required>
+                                 <option value="">Kelas</option>
+                                 <option value="1A" {{ request('kelas') == '1A' ? 'selected' : '' }}>1 - A</option>
+                                 <option value="1B" {{ request('kelas') == '1B' ? 'selected' : '' }}>1 - B</option>
+                                 <option value="2A" {{ request('kelas') == '2A' ? 'selected' : '' }}>2 - A</option>
+                                 <option value="2B" {{ request('kelas') == '2B' ? 'selected' : '' }}>2 - B</option>
+                                 <option value="3A" {{ request('kelas') == '3A' ? 'selected' : '' }}>3 - A</option>
+                                 <option value="3B" {{ request('kelas') == '3B' ? 'selected' : '' }}>3 - B</option>
+                                 <option value="4" {{ request('kelas') == '4' ? 'selected' : '' }}>4</option>
+                                 <option value="5" {{ request('kelas') == '5' ? 'selected' : '' }}>5</option>
+                                 <option value="6" {{ request('kelas') == '6' ? 'selected' : '' }}>6</option>
+                             </select>
+                         </div>
+                     </div>
+                     <div class="modal-footer justify-content-center">
+                         <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">Batal</button>
+                         <button type="submit" class="btn btn-primary btn-rounded">Tambah</button>
+                     </div>
+                 </form>
+             </div>
+         </div>
      </div>
-</div>
+ </div> 
 <!-- End Modal -->
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
      <div class="modal-dialog">
-          <div class="modal-content">
-               <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Petugas</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                    <form method="post" action="{{ route('petugas.ubah')}}" enctype="multipart/form-data">
-                         @method ('PATCH')
-                         @csrf
-                         <div class="row">
-                              <div class="form-group">
-                                   <label for="nama">Nama</label>
-                                   <input type="text" class="form-control rounded" id="edit-id" name="id" placeholder="Id" readonly hidden>
-                                   <input type="text" class="form-control rounded" id="edit-nama" name="nama" placeholder="Nama">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="id_tabungan">Username</label>
-                                   <input type="text" class="form-control rounded" id="edit-id_tabungan" name="id_tabungan" placeholder="Username">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="email">Email Address</label>
-                                   <input type="email" class="form-control rounded" id="edit-email" name="email" placeholder="Email">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="kontak">Nomor Telepon</label>
-                                   <input type="text" class="form-control rounded" id="edit-kontak" name="kontak" placeholder="Kontak">
-                              </div>
-                              <div class="form-group col-md-6">
-                                   <label for="jenis_kelamin">Jenis Kelamin</label>
-                                   <select name="jenis_kelamin" class="form-select form-select-sm rounded" id="edit-jenis_kelamin">
-                                        <option value="Laki - Laki">Laki - Laki</option>
-                                        <option value="Perempuan">Perempuan</option>
-                                   </select>
-                              </div>
-                              <div class="modal-footer justify-content-center">
-                                   <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">Batal</button>
-                                   <button type="submit" class="btn btn-primary btn-rounded">Simpan</button>
-                              </div>
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Petugas</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+                 <form method="post" action="{{ route('petugas.ubah')}}" enctype="multipart/form-data">
+                     @method('PATCH')
+                     @csrf
+                     <div class="row">
+                         <div class="form-group">
+                             <label for="nama">Nama</label>
+                             <input type="text" class="form-control rounded" id="edit-id" name="id" placeholder="Id" readonly hidden>
+                             <input type="text" class="form-control rounded" id="edit-nama" name="nama" placeholder="Nama">
                          </div>
-                    </form>
-               </div>
-          </div>
+                         <div class="form-group col-md-6">
+                             <label for="id_tabungan">Username</label>
+                             <input type="text" class="form-control rounded" id="edit-id_tabungan" name="id_tabungan" placeholder="Username">
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="email">Email Address</label>
+                             <input type="email" class="form-control rounded" id="edit-email" name="email" placeholder="Email">
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="kontak">Nomor Telepon</label>
+                             <input type="text" class="form-control rounded" id="edit-kontak" name="kontak" placeholder="Kontak">
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="jenis_kelamin">Jenis Kelamin</label>
+                             <select name="jenis_kelamin" class="form-select form-select-sm rounded" id="edit-jenis_kelamin">
+                                 <option value="Laki - Laki">Laki - Laki</option>
+                                 <option value="Perempuan">Perempuan</option>
+                             </select>
+                         </div>
+                         <div class="form-group col-md-6">
+                             <label for="kelas">Kelas</label>
+                             <select class="form-select form-select-sm rounded" name="kelas" id="edit-kelas" required>
+                                 <option value="">Kelas</option>
+                                 <option value="1A">1 - A</option>
+                                 <option value="1B">1 - B</option>
+                                 <option value="2A">2 - A</option>
+                                 <option value="2B">2 - B</option>
+                                 <option value="3A">3 - A</option>
+                                 <option value="3B">3 - B</option>
+                                 <option value="4">4</option>
+                                 <option value="5">5</option>
+                                 <option value="6">6</option>
+                             </select>
+                         </div>
+                         <div class="modal-footer justify-content-center">
+                             <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">Batal</button>
+                             <button type="submit" class="btn btn-primary btn-rounded">Simpan</button>
+                         </div>
+                     </div>
+                 </form>
+             </div>
+         </div>
      </div>
-</div>
+ </div> 
 <!-- End Modal -->
 
 <!-- Script -->
@@ -223,25 +255,25 @@
 
 <script>
      $(function(){
-          $(document).on('click','#btn-edit-user', function(){
-
-               let id = $(this).data('id');
-
-               $.ajax({
-                    type: "get",
-                    url: "{{url('/admin/ajaxadmin/dataUser')}}/"+id,
-                    dataType: 'json',
-                    success: function(res){
-                         $('#edit-id').val(res.id);
-                         $('#edit-id_tabungan').val(res.id_tabungan);
-                         $('#edit-nama').val(res.nama);
-                         $('#edit-email').val(res.email);
-                         $('#edit-kontak').val(res.kontak);
-                         $('#edit-jenis_kelamin').val(res.jenis_kelamin);
-                    },
-               });
-          });
+         $(document).on('click','#btn-edit-user', function(){
+             let id = $(this).data('id');
+ 
+             $.ajax({
+                 type: "get",
+                 url: "{{url('/admin/ajaxadmin/dataUser')}}/"+id,
+                 dataType: 'json',
+                 success: function(res){
+                     $('#edit-id').val(res.id);
+                     $('#edit-id_tabungan').val(res.id_tabungan);
+                     $('#edit-nama').val(res.nama);
+                     $('#edit-email').val(res.email);
+                     $('#edit-kontak').val(res.kontak);
+                     $('#edit-jenis_kelamin').val(res.jenis_kelamin);
+                     $('#edit-kelas').val(res.kelas); // Mengisi nilai kelas
+                 },
+             });
+         });
      });
-</script>
+ </script> 
 </body>
 </html>

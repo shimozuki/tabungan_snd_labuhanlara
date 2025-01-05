@@ -53,50 +53,48 @@ class AdminController extends Controller
         $validate = $req->validate([
             'nama' => 'required|max:255',
             'id_tabungan' => 'required|max:10',
-            'email' => 'required',
+            'email' => 'required|email',
             'kontak' => 'required|max:12',
             'password' => 'required|min:8',
             'jenis_kelamin' => 'required',
+            'kelas' => 'required', // Validasi untuk kelas
         ]);
         $user->nama = $req->get('nama');
         $user->id_tabungan = $req->get('id_tabungan');
         $user->email = $req->get('email');
         $user->kontak = $req->get('kontak');
         $user->jenis_kelamin = $req->get('jenis_kelamin');
+        $user->kelas = $req->get('kelas'); // Menyimpan kelas
         $user->password = Hash::make($req->get('password'));
-        $user->roles_id = 2 ;
-        $user->kelas = '-' ;
+        $user->roles_id = 2;
         $user->save();
         $notification = array(
             'message' =>'Data Petugas berhasil ditambahkan', 'alert-type' =>'success'
         );
         return redirect()->route('petugas')->with($notification);
-    }
+    }    
     // Get Data User ------------------------------------------------------------------------------------------------
-    public function getDataUser($id){
-        $user = User::find($id);
-        return response()->json($user);
-    }
-    // Update Data Petugas ------------------------------------------------------------------------------------------
     public function edit(Request $req){
         $user = User::find($req->get('id'));
         $validate = $req->validate([
             'nama' => 'required|max:255',
-            'email' => 'required',
+            'email' => 'required|email',
             'kontak' => 'required|max:12',
             'jenis_kelamin' => 'required',
+            'kelas' => 'required', // Validasi untuk kelas
         ]);
         $user->nama = $req->get('nama');
         $user->email = $req->get('email');
         $user->kontak = $req->get('kontak');
         $user->jenis_kelamin = $req->get('jenis_kelamin');
+        $user->kelas = $req->get('kelas'); // Menyimpan kelas
         $user->save();
         $notification = array(
             'message' => 'Data Petugas berhasil diubah',
             'alert-type' => 'success'
         );
         return redirect()->route('petugas')->with($notification);
-    }
+    }    
     // Delete Data Petugas ------------------------------------------------------------------------------------------
     public function destroy($id){
         $user = User::find($id);

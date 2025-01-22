@@ -194,7 +194,7 @@
                                    </div>
                               </div>
                               {{-- Row 2 --}}
-                              <div class="row m-2 mt-4">
+                              {{-- <div class="row m-2 mt-4">
                                    <div class="col-lg-12 grid-margin">
                                         <div class="col-sm-12 statistics-details d-flex align-items-center justify-content-between">
                                              @foreach ($totalTarikHariIni as $totalTarikHari)
@@ -207,7 +207,7 @@
                                              @endforeach
                                         </div>
                                    </div>
-                              </div>
+                              </div> --}}
                               <div class="table-responsive">
                                    <table id="table-data " class="table table-striped text-center">
                                         <thead>
